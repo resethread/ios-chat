@@ -1,0 +1,9 @@
+{% set stations = [
+	'toto', 'ddfdf', 'lol', 'pouet'
+] %}
+
+<datalist id="stations">
+	{% for station in stations %}
+		<option value="{{ station }}"></option>
+	{% endfor %}
+</datalist>

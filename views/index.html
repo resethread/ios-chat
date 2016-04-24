@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="white">
+		<link rel="stylesheet" href="/css/framework7.ios.css">
+		<link rel="stylesheet" href="/css/framework7.ios.colors.css">
+		<title>Chat application real time</title>
+	</head>
+	<body id="appli_chat">
+		<div class="panel-overlay"></div>
+		<div class="panel panel-left panel-reveal">
+			<div class="content-block">
+				<h3><a href="#">menu 1 en préparation</a></h3>
+				<hr>
+				<h3>azez</h3>
+				<hr>
+				<h3><a href="#" @click="logout">Effacer traces</a></h3>
+			</div>
+		</div>
+		<div class="views">
+			<div class="view view-main">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="center sliding">
+							AWESOME APP
+						</div>
+						<div class="right">
+							<a href="#" class="link icon-only open-panel" data-panel="left">
+								<i class="icon icon-bars"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="index" class="page">
+						<div class="page-content">
+							<!-- <div class="content-block-title">
+								<p><a href="#" class="button button-big">Signal les fdp</a></p>
+							</div> -->
+							<div class="content-block">
+								<div class="content-block-inner">
+									<div class="list-block media-list">
+										<ul>
+											<li v-for="message in messages">
+												<a href="#infos" class="item-link" @click="moreInfos(message)">
+													<div class="item-content">
+														<div class="item-inner">
+															<div class="item-title-row">
+																<div class="item-title">
+																	<b v-text="message.station"></b>
+																</div>
+																<div class="item-after">
+																	<span class="badge" v-text="message.time"></span>
+																</div>
+															</div>
+															<div class="item-subtitle">
+																<small v-text="message.user"></small>
+															</div>
+															<div class="item-text" v-text="message.message"></div>
+														</div>
+													</div>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- page infos -->
+					<div data-page="infos" class="page cached">
+						<div class="page-content">
+							<div class="content-block">
+								<p><a href="#" class="back">Retour en arrière</a></p>
+								<h2 id="this_station"></h2>
+								<p id="this_message"></p>
+							</div>
+						</div>
+					</div>
+					<!-- page info -->
+				</div>
+			</div>
+			<div class="toolbar tabbar tabbar-labels">
+				<div class="toolbar-inner" style="justify-content: center;">
+					<p><a href="#" class="button button-big button-fill color-green go-signal">Faire un signal</a></p>
+				</div>
+			</div>
+		</div>
+
+		{% include 'includes/popup.html' %}
+
+		<script src="/js/socket-io.js"></script>
+		<script src="/js/framework7.js"></script>
+		<script src="/js/vue.js"></script>
+		<script src="/js/vue-resource.js"></script>
+		<script src="/js/app.js"></script>
+	</body>
+</html>
