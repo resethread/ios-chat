@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="white">
+		<link rel="stylesheet" href="/css/framework7.ios.css">
+		<link rel="stylesheet" href="/css/framework7.ios.colors.css">
+		<title>Chat application real time</title>
+	</head>
+	<body id="appli_chat">
+		{% include '../includes/menu-lat.html' %}
+		<div class="views">
+			<div class="view view-main">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="center sliding">
+							<img src="/img/logo.jpg" align="logo">
+						</div>
+						<div class="right">
+							<a href="#" class="link icon-only open-panel" data-panel="left">
+								<i class="icon icon-bars"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="a-propos" class="page">
+						<div class="page-content">
+							<div class="content-block">
+								<div class="content-block-inner">
+									{% block content %}
+									{% endblock %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/js/socket-io.js"></script>
+		<script src="/js/framework7.js"></script>
+		<script src="/js/vue.js"></script>
+		<script src="/js/vue-resource.js"></script>
+		<script src="/js/app.js"></script>
+	</body>
+</html>

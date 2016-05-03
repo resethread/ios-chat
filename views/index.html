@@ -10,22 +10,13 @@
 		<title>Chat application real time</title>
 	</head>
 	<body id="appli_chat">
-		<div class="panel-overlay"></div>
-		<div class="panel panel-left panel-reveal">
-			<div class="content-block">
-				<h3><a href="#">menu 1 en préparation</a></h3>
-				<hr>
-				<h3>azez</h3>
-				<hr>
-				<h3><a href="#" @click="logout">Effacer traces</a></h3>
-			</div>
-		</div>
+		{% include './includes/menu-lat.html' %}
 		<div class="views">
 			<div class="view view-main">
 				<div class="navbar">
 					<div class="navbar-inner">
 						<div class="center sliding">
-							AWESOME APP
+							<img src="/img/logo.jpg" align="logo">
 						</div>
 						<div class="right">
 							<a href="#" class="link icon-only open-panel" data-panel="left">

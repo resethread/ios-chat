@@ -14,18 +14,13 @@ var messageSchema = mongoose.Schema({
 	createdAt: Date,
 	time: String
 })
-
+messageSchema.index({ createdAt: 1}, { expireAfterSeconds : 60*60*24*3});
 var Message = mongoose.model("Message", messageSchema)
 
 
 
 io.sockets.on('connection', function(socket) {
 
-
-	/*Message.find(function(err, result) {
-		if (err) throw err;
-		socket.emit('data', result)
-	})*/
 	Message.find().sort({ 'createdAt' : 'desc'}).limit(20).exec(function(err, result) {
 		if (err) throw err;
 		socket.emit('data', result)
@@ -37,8 +32,8 @@ io.sockets.on('connection', function(socket) {
 			user: message.user,
 			station: message.station,
 			message: message.message,
-			date: Date(),
-			time: message.time
+			createdAt: new Date(),
+			time: message.time,
 		}).save()
 
 		io.sockets.emit('server-good-receive', message )
@@ -59,12 +54,16 @@ app.get('/', function(req, res) {
 	res.render('index.html', {})
 })
 
-/*app.get('/messages', function(req, res) {
-	Message.find(function(err, result) {
-		if (err) throw err;
-		res.json(result)
-	})
-})*/
+app.get('/infos', function(req, res) {
+	res.render('infos.html', {})
+})
 
+app.get('/a-propos', function(req, res) {
+	res.render('a-propos.html')
+})
+
+app.all('*', function(req, res) {
+	res.redirect('/')
+})
 
 server.listen(8080)
