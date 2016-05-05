@@ -1,12 +1,52 @@
+<div class="statusbar-overlay"></div>
 <div class="panel-overlay"></div>
-<div class="panel panel-left panel-reveal">
-	<div class="content-block">
-		<h3><a href="/">Application</a></h3>
-		<hr>
-		<h3><a href="/infos">Infos</a></h3>
-		<hr>
-		<h3><a href="/a-propos">A propos</a></h3>
-		<hr>
-		<h3><a href="#" @click="logout">Effacer traces</a></h3>
+<div class="panel panel-left panel-cover layout-dark">
+	<div class="list-block">
+		<ul>
+			<li>
+				<a href="/" class="item-link close-panel" @click="reload">
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-title">
+								Accueil
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="/infos" class="item-link close-panel">
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-title">
+								Infos
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="/a-propos" class="item-link close-panel">
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-title">
+								A propos
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="item-link close-panel" @click="logout">
+					<div class="item-content">
+						<div class="item-inner">
+							<div class="item-title">
+								Effacer les traces
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+		</ul>
 	</div>
 </div>

@@ -43,7 +43,7 @@ var vm = new Vue({
 	el: '#appli_chat',
 
 	ready: function(arg) {
-		
+		console.log('ready')
     },
 
 	data: {
@@ -64,7 +64,8 @@ var vm = new Vue({
 				user: localStorage.getItem('nick'),
 				station: station,
 				message: message,
-				createdAt: Date(),
+				created_at: Date(),
+
 				time: this.getTimeFormated()
 			}
 			socket.emit('client-send-message', new_message)
@@ -72,7 +73,7 @@ var vm = new Vue({
 			document.getElementById('input_message').value = ''
 		},
 
-		getTimeFormated() {
+		getTimeFormated: function() {
 			var date = new Date()
 			var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
 			var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
@@ -88,7 +89,27 @@ var vm = new Vue({
 		logout: function() {
 			localStorage.clear()
 			myApp.alert('Plus de traces içi...', null);
+		},
+
+		badgeColor: function(created_at) {
+			var created_at = new Date(created_at)
+			var hour_space = new Date().getHours() - created_at.getHours()
+			var bg = ''
+			if (hour_space >= 0 && hour_space < 2)
+				bg = 'bg-red'
+			else if (hour_space >= 0 && hour_space <= 3) 
+				bg = 'bg-orange'
+			else if (hour_space >=0 && hour_space <= 4)
+				bg = 'bg-yellow'
+			else { 
+				bg = 'bg-blue'
+			}
+			return bg
+		},
+
+		reload: function() {
+			socket.emit('reload')
 		}
-	}
+	},
 })
 

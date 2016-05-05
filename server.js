@@ -11,17 +11,18 @@ var messageSchema = mongoose.Schema({
 	user: String,
 	station: String,
 	message: String,
-	createdAt: Date,
+	created_at: Date,
+	updated_at: Date,
 	time: String
 })
-messageSchema.index({ createdAt: 1}, { expireAfterSeconds : 60*60*24*3});
+messageSchema.index({ created_at: 1}, { expireAfterSeconds : 60*60*24*3});
 var Message = mongoose.model("Message", messageSchema)
 
 
 
 io.sockets.on('connection', function(socket) {
 
-	Message.find().sort({ 'createdAt' : 'desc'}).limit(20).exec(function(err, result) {
+	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
 		if (err) throw err;
 		socket.emit('data', result)
 	})
@@ -32,7 +33,8 @@ io.sockets.on('connection', function(socket) {
 			user: message.user,
 			station: message.station,
 			message: message.message,
-			createdAt: new Date(),
+			created_at: new Date(),
+			updated_at: new Date(),
 			time: message.time,
 		}).save()
 
@@ -51,6 +53,7 @@ app.use(express.static('public'))
 
 // routes
 app.get('/', function(req, res) {
+
 	res.render('index.html', {})
 })
 
