@@ -22,6 +22,8 @@ var Message = mongoose.model("Message", messageSchema)
 
 io.sockets.on('connection', function(socket) {
 
+	console.log('socket : ok')
+
 	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
 		if (err) throw err;
 		socket.emit('data', result)

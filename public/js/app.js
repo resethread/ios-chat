@@ -35,6 +35,7 @@ socket.on('data', function(data) {
 	vm._data.messages = data
 })
 socket.on('server-good-receive', function(message) {
+	alert('client ok')
 	vm._data.messages.unshift(message)
 })
 
