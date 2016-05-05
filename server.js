@@ -4,7 +4,7 @@ var server = require('http').createServer(app)
 var io = require('socket.io')(server)
 var nunjucks = require('nunjucks')
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/chat')
+mongoose.connect('mongodb://127.0.0.1/chat')
 
 
 var messageSchema = mongoose.Schema({
