@@ -30,12 +30,12 @@ $$('.close-popup').on('click', function() {
 
 
 // socket io
-var socket = io.connect('http://localhost:8080')
+var socket = io()
+
 socket.on('data', function(data) {
 	vm._data.messages = data
 })
 socket.on('server-good-receive', function(message) {
-	alert('client ok')
 	vm._data.messages.unshift(message)
 })
 
@@ -108,8 +108,8 @@ var vm = new Vue({
 			return bg
 		},
 
-		reload: function() {
-			socket.emit('reload')
+		reload: function(event) {
+			location.reload()
 		}
 	},
 })

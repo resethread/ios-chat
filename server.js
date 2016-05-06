@@ -19,11 +19,10 @@ messageSchema.index({ created_at: 1}, { expireAfterSeconds : 60*60*24*3});
 var Message = mongoose.model("Message", messageSchema)
 
 
-
 io.sockets.on('connection', function(socket) {
 
-	console.log('socket : ok')
-
+	
+	
 	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
 		if (err) throw err;
 		socket.emit('data', result)
@@ -42,6 +41,7 @@ io.sockets.on('connection', function(socket) {
 
 		io.sockets.emit('server-good-receive', message )
 	})
+
 })
 
 
@@ -55,11 +55,15 @@ app.use(express.static('public'))
 
 // routes
 app.get('/', function(req, res) {
-
-	res.render('index.html', {})
+	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
+		var data = result
+		res.render('index.html', {data: data})
+	})
+	//res.render('index.html', {})
 })
 
 app.get('/infos', function(req, res) {
+
 	res.render('infos.html', {})
 })
 
