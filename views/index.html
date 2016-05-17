@@ -30,7 +30,7 @@
 									<div class="list-block media-list">
 										<ul>
 											<li v-for="message in messages">
-												<a href="#infos" class="item-link" @click="moreInfos(message)">
+												<a href="#infos" class="item-link" @click="moreInfos(message)" :data-id="message.id">
 													<div class="item-content">
 														<div class="item-inner">
 															<div class="item-title-row">
@@ -55,31 +55,31 @@
 							</div>
 						</div>
 					</div>
-					<!-- page infos -->
+					{# page info #}
 					<div data-page="infos" class="page cached">
 						<div class="page-content">
-							<div class="content-block">
-								<p><a href="#" class="back">Retour en arrière</a></p>
-								<h2 id="this_station"></h2>
-								<p id="this_message"></p>
-								<p><a href="#" class="button button-fill color-blue">Ils sont encore là</a></p>
+							<div class="content-block" id="this_id" data-id="">
+								<div class="content-block-inner">
+									<p><a href="#" class="back">Retour en arrière</a></p>
+									<h2 id="this_station"></h2>
+									<p id="this_message"></p>
+								</div>
 							</div>
 							<div class="content-block">
 								<div class="content-block-title">
 									Commentaires
 								</div>
 							</div>
-							<div class="card">
+							<div class="card" v-for="comment in comments">
 								<div class="card-header">
-									bob
+									<span v-text="comment.user"></span>
+									<span class="badge" v-text="comment.created_at"></span>
 								</div>
 								<div class="card-content">
-									<div class="card-content-inner">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non deserunt perferendis numquam rerum deleniti nemo possimus, quaerat temporibus at dignissimos, quasi modi qui omnis, quas aliquam atque libero! Officia, vel!
+									<div class="card-content-inner" v-text="comment.text">
 									</div>
 								</div>
 								<div class="card-footer">
-									18:23
 									<div class="item-after">
 										<a href="#">Répondre</a>
 									</div>
@@ -92,7 +92,7 @@
 											<div class="item-content">
 												<div class="item-inner">
 													<div class="item-input">
-														<textarea name= id="" rows="4" placeholder="votre texte ici"></textarea>
+														<textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici"></textarea>
 													</div>
 												</div>
 											</div>
@@ -100,7 +100,7 @@
 										<li>
 											<div class="item-content">
 												<div class="item-inner">
-													<button class="button button-fill color-orange" style="width: 100%;">GO</button>
+													<button class="button button-fill color-orange" style="width: 100%;" @click="sendComment">GO</button>
 												</div>
 											</div>
 										</li>
@@ -109,7 +109,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- page info -->
+					{# page info #}
 				</div>
 			</div>
 			<div class="toolbar tabbar tabbar-labels">

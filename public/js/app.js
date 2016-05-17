@@ -39,6 +39,13 @@ socket.on('server-good-receive', function(message) {
 	vm._data.messages.unshift(message)
 })
 
+socket.on('server_sends_comments', function(comments) {
+	vm._data.comments = comments
+})
+
+socket.on('server_push_2_client', function(comment) {
+	vm._data.comments.unshift(comment)
+})
 
 var vm = new Vue({
 	el: '#appli_chat',
@@ -48,10 +55,12 @@ var vm = new Vue({
     },
 
 	data: {
+		id: '',
 		messages: [],
 		user: '',
 		station: '',
 		message: '',
+		comments: []
 	},
 
 	methods: {
@@ -83,8 +92,27 @@ var vm = new Vue({
 		},
 
 		moreInfos: function(message) {
+			document.getElementById('this_id').dataset.id = message._id
 			document.getElementById('this_station').innerHTML = message.station
 			document.getElementById('this_message').innerHTML = message.message
+			
+			this.id = message._id || message.id
+
+			console.log(message)
+			// load comments
+			socket.emit('client_load_comments', message._id || message.id)
+		},
+
+		sendComment() {
+			var comment = {}
+			comment.message_id = this.id
+			comment.user = localStorage.getItem('nick') || 'Annonyme'
+			comment.text = document.getElementById('commentText').value
+			document.getElementById('commentText').value = ''
+
+			console.log(comment)
+
+			socket.emit('client-send-comment', comment)
 		},
 
 		logout: function() {

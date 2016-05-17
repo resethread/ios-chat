@@ -6,6 +6,15 @@ var nunjucks = require('nunjucks')
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://127.0.0.1/chat')
 
+// helpers
+function getTimeFormat() {
+	var date = new Date()
+	var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+	var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+	
+	return hours + ':' + minutes
+}
+
 
 var messageSchema = mongoose.Schema({
 	user: String,
@@ -13,35 +22,64 @@ var messageSchema = mongoose.Schema({
 	message: String,
 	created_at: Date,
 	updated_at: Date,
-	time: String
+	time: String,
+	comments: []
 })
-messageSchema.index({ created_at: 1}, { expireAfterSeconds : 60*60*24*3});
+messageSchema.index({ created_at: 1}, { expireAfterSeconds : 60*60*24});
 var Message = mongoose.model("Message", messageSchema)
 
-
 io.sockets.on('connection', function(socket) {
-
-	
 	
 	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
 		if (err) throw err;
 		socket.emit('data', result)
 	})
 	
-
 	socket.on('client-send-message', function(message) {
-		var m = new Message({
+		/*var m = new Message({
 			user: message.user,
 			station: message.station,
 			message: message.message,
 			created_at: new Date(),
 			updated_at: new Date(),
 			time: message.time,
-		}).save()
+		}).save()*/
+
+		var m = new Message()
+		m.user = message.user
+		m.station = message.station
+		m.message = message.message
+		m.created_at = new Date()
+		m.updated_at = new Date()
+		m.time = message.time
+		m.save()
+		
+		message.id = m._id
 
 		io.sockets.emit('server-good-receive', message )
 	})
 
+	socket.on('client_load_comments', function(id) {
+		Message.findById(id, function(err, message) {
+			if (err) {
+				throw err
+			}
+			var comments = message.comments
+			socket.emit('server_sends_comments', comments)
+		})
+		
+	})
+
+	socket.on('client-send-comment', function(comment) {
+		Message.findById(comment.message_id, function(err, message) {
+			comment.created_at = getTimeFormat()
+			message.comments.unshift(comment)
+			message.save(function(err) {
+				if (err) throw  err;
+				socket.emit('server_push_2_client', comment)
+			})
+		})
+	})
 })
 
 
@@ -59,7 +97,6 @@ app.get('/', function(req, res) {
 		var data = result
 		res.render('index.html', {data: data})
 	})
-	//res.render('index.html', {})
 })
 
 app.get('/infos', function(req, res) {
