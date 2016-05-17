@@ -99,9 +99,10 @@ app.get('/', function(req, res) {
 	})
 })
 
-app.get('/infos', function(req, res) {
 
-	res.render('infos.html', {})
+app.get('/infos', function(req, res) {
+	var infos = require('./data/infos')
+	res.render('infos.html', { infos: infos })
 })
 
 app.get('/a-propos', function(req, res) {
