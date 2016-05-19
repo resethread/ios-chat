@@ -51,7 +51,7 @@ var vm = new Vue({
 	el: '#appli_chat',
 
 	ready: function(arg) {
-		console.log('ready')
+		console.log('keep calm and fuck the system...')
     },
 
 	data: {
@@ -60,7 +60,8 @@ var vm = new Vue({
 		user: '',
 		station: '',
 		message: '',
-		comments: []
+		comments: [],
+		show_tabbar: true
 	},
 
 	methods: {
@@ -98,7 +99,6 @@ var vm = new Vue({
 			
 			this.id = message._id || message.id
 
-			console.log(message)
 			// load comments
 			socket.emit('client_load_comments', message._id || message.id)
 		},
@@ -110,7 +110,7 @@ var vm = new Vue({
 			comment.text = document.getElementById('commentText').value
 			document.getElementById('commentText').value = ''
 
-			console.log(comment)
+			this.showTab()
 
 			socket.emit('client-send-comment', comment)
 		},
@@ -136,9 +136,22 @@ var vm = new Vue({
 			return bg
 		},
 
+		hideTab: function() {
+			this.show_tabbar = false
+		},
+
+		showTab: function() {
+			this.show_tabbar = true
+		},
+
 		reload: function(event) {
 			location.reload()
 		}
 	},
 })
+
+setTimeout(function() {
+	console.clear()
+	console.log('keep calm and fuck the system...')
+}, 100)
 

@@ -15,7 +15,6 @@ function getTimeFormat() {
 	return hours + ':' + minutes
 }
 
-
 var messageSchema = mongoose.Schema({
 	user: String,
 	station: String,
@@ -36,14 +35,6 @@ io.sockets.on('connection', function(socket) {
 	})
 	
 	socket.on('client-send-message', function(message) {
-		/*var m = new Message({
-			user: message.user,
-			station: message.station,
-			message: message.message,
-			created_at: new Date(),
-			updated_at: new Date(),
-			time: message.time,
-		}).save()*/
 
 		var m = new Message()
 		m.user = message.user
@@ -67,7 +58,6 @@ io.sockets.on('connection', function(socket) {
 			var comments = message.comments
 			socket.emit('server_sends_comments', comments)
 		})
-		
 	})
 
 	socket.on('client-send-comment', function(comment) {
@@ -82,14 +72,12 @@ io.sockets.on('connection', function(socket) {
 	})
 })
 
-
 // config
 nunjucks.configure('views', {
 	autoescape: true,
   	express   : app
 })
 app.use(express.static('public'))
-
 
 // routes
 app.get('/', function(req, res) {
@@ -98,7 +86,6 @@ app.get('/', function(req, res) {
 		res.render('index.html', {data: data})
 	})
 })
-
 
 app.get('/infos', function(req, res) {
 	var infos = require('./data/infos')
