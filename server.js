@@ -62,7 +62,6 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('client-send-comment', function(comment) {
 		Message.findById(comment.message_id, function(err, message) {
-			comment.created_at = getTimeFormat()
 			message.comments.unshift(comment)
 			message.save(function(err) {
 				if (err) throw  err;
@@ -83,7 +82,7 @@ app.use(express.static('public'))
 app.get('/', function(req, res) {
 	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
 		var data = result
-		res.render('index.html', {data: data})
+		res.render('index2.html', {data: data})
 	})
 })
 

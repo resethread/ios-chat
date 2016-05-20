@@ -22,9 +22,6 @@
 				<div class="pages navbar-through toolbar-through">
 					<div data-page="" class="page">
 						<div class="page-content">
-							<!-- <div class="content-block-title">
-								<p><a href="#" class="button button-big">Signal les fdp</a></p>
-							</div> -->
 							<div class="content-block">
 								<div class="content-block-inner">
 									<div class="list-block media-list">
@@ -66,25 +63,27 @@
 								</div>
 							</div>
 							<div class="content-block">
-								<div class="list-block">
-									<ul>
-										<li class="align-top">
-											<div class="item-content">
-												<div class="item-inner">
-													<div class="item-input">
-														<textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici" @focus="hideTab" @blur="showTab"></textarea>
+								<div class="content-block-inner">
+									<div class="list-block">
+										<ul>
+											<li class="align-top">
+												<div class="item-content">
+													<div class="item-inner">
+														<div class="item-input">
+															<textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici"></textarea>
+														</div>
 													</div>
 												</div>
-											</div>
-										</li>
-										<li>
-											<div class="item-content">
-												<div class="item-inner">
-													<button class="button button-fill color-blue" style="width: 100%;" @click="sendComment">GO</button>
+											</li>
+											<li>
+												<div class="item-content">
+													<div class="item-inner">
+														<button class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
+													</div>
 												</div>
-											</div>
-										</li>
-									</ul>
+											</li>
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class="content-block">
@@ -101,11 +100,6 @@
 									<div class="card-content-inner" v-text="comment.text">
 									</div>
 								</div>
-								<div class="card-footer">
-									<div class="item-after">
-										<a href="#">Répondre</a>
-									</div>
-								</div>
 							</div>
 							
 						</div>
@@ -113,9 +107,9 @@
 					{# page info #}
 				</div>
 			</div>
-			<div class="toolbar tabbar tabbar-labels" v-show="show_tabbar">
+			<div class="toolbar tabbar tabbar-labels">
 				<div class="toolbar-inner" style="justify-content: center;">
-					<p><a href="#" class="button button-big button-fill color-green go-signal">Faire un signal</a></p>
+					<p><a href="#" class="button button-big button-fill color-blue go-signal">Faire un signal</a></p>
 				</div>
 			</div>
 		</div>

@@ -61,7 +61,6 @@ var vm = new Vue({
 		station: '',
 		message: '',
 		comments: [],
-		show_tabbar: true
 	},
 
 	methods: {
@@ -108,9 +107,8 @@ var vm = new Vue({
 			comment.message_id = this.id
 			comment.user = localStorage.getItem('nick') || 'Annonyme'
 			comment.text = document.getElementById('commentText').value
+			comment.created_at = this.getTimeFormated()
 			document.getElementById('commentText').value = ''
-
-			this.showTab()
 
 			socket.emit('client-send-comment', comment)
 		},
@@ -134,14 +132,6 @@ var vm = new Vue({
 				bg = 'bg-blue'
 			}
 			return bg
-		},
-
-		hideTab: function() {
-			this.show_tabbar = false
-		},
-
-		showTab: function() {
-			this.show_tabbar = true
 		},
 
 		reload: function(event) {
