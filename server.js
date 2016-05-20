@@ -82,7 +82,7 @@ app.use(express.static('public'))
 app.get('/', function(req, res) {
 	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
 		var data = result
-		res.render('index2.html', {data: data})
+		res.render('index.html', {data: data})
 	})
 })
 
