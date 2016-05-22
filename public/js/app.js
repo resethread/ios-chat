@@ -138,8 +138,8 @@ var vm = new Vue({
 
 		focusArea: function() {
 			this.hideTab()
-			var el = document.getElementById('comments')
-			el.scrollIntoView(false)
+			var el = document.getElementById('scroll')
+			el.scrollIntoView(true)
 		},
 
 		showTab: function() {
