@@ -136,6 +136,12 @@ var vm = new Vue({
 			return bg
 		},
 
+		focusArea: function() {
+			this.hideTab()
+			var btn = document.getElementById('btn')
+			btn.scrollIntoView(false)
+		},
+
 		showTab: function() {
 			this.tabbar_visible = true
 		},

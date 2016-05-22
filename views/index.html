@@ -70,7 +70,7 @@
 												<div class="item-content">
 													<div class="item-inner">
 														<div class="item-input">
-															<textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici" @focus="hideTab" @blur="showTab"></textarea>
+															<textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici" @focus="focusArea" @blur="showTab"></textarea>
 														</div>
 													</div>
 												</div>
@@ -78,7 +78,7 @@
 											<li>
 												<div class="item-content">
 													<div class="item-inner">
-														<button class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
+														<button id="btn" class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
 													</div>
 												</div>
 											</li>
