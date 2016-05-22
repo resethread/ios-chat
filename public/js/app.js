@@ -51,6 +51,7 @@ var vm = new Vue({
 	el: '#appli_chat',
 
 	ready: function(arg) {
+		this.showTab()
 		console.log('keep calm and fuck the system...')
     },
 
@@ -61,6 +62,7 @@ var vm = new Vue({
 		station: '',
 		message: '',
 		comments: [],
+		tabbar_visible: true
 	},
 
 	methods: {
@@ -132,6 +134,14 @@ var vm = new Vue({
 				bg = 'bg-blue'
 			}
 			return bg
+		},
+
+		showTab: function() {
+			this.tabbar_visible = true
+		},
+
+		hideTab: function() {
+			this.tabbar_visible = false
 		},
 
 		reload: function(event) {
