@@ -112,7 +112,9 @@ var vm = new Vue({
 			comment.created_at = this.getTimeFormated()
 			document.getElementById('commentText').value = ''
 
-			socket.emit('client-send-comment', comment)
+			if (comment.text) {
+				socket.emit('client-send-comment', comment)
+			}
 		},
 
 		logout: function() {
