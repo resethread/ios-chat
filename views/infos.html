@@ -3,21 +3,21 @@
 {% block content %}
 <h1>Infos</h1>
 
-{% if infos %}
+{% if articles %}
 	<div class="list-block media-list">
 		<ul>	
-			{% for info in infos %}
+			{% for article in articles %}
 			<li>
 				<div class="item-inner">
 					<div class="item-title-row">
 						<div class="item-title">
-							<a href="{{ info.link }}" class="external" target="_blank" style="font-weight: bold; color: #000;">
-								{{ info.title }}
+							<a href="{{ article.link }}" class="external" target="_blank" style="font-weight: bold; color: #000;">
+								{{ article.title }}
 							</a>
 						</div>
 					</div>
 					<div class="item-text">
-						{{ info.p }}
+						{{ article.content }}
 					</div>
 				</div>
 			</li>
