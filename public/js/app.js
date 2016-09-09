@@ -97,7 +97,7 @@ var vm = new Vue({
 			document.getElementById('this_id').dataset.id = message._id
 			document.getElementById('this_station').innerHTML = message.station
 			document.getElementById('this_message').innerHTML = message.message
-			
+
 			this.id = message._id || message.id
 
 			// load comments
@@ -128,11 +128,11 @@ var vm = new Vue({
 			var bg = ''
 			if (hour_space >= 0 && hour_space < 2)
 				bg = 'bg-red'
-			else if (hour_space >= 0 && hour_space <= 3) 
+			else if (hour_space >= 0 && hour_space <= 3)
 				bg = 'bg-orange'
 			else if (hour_space >=0 && hour_space <= 4)
 				bg = 'bg-yellow'
-			else { 
+			else {
 				bg = 'bg-blue'
 			}
 			return bg
@@ -151,10 +151,6 @@ var vm = new Vue({
 		hideTab: function() {
 			this.tabbar_visible = false
 		},
-
-		reload: function(event) {
-			location.reload()
-		}
 	},
 })
 
@@ -162,4 +158,3 @@ setTimeout(function() {
 	console.clear()
 	console.log('keep calm and fuck the system...')
 }, 100)
-
