@@ -1,30 +1,31 @@
 {% extends './layouts/application-layout.html' %}
 
 {% block content %}
-<h1>Infos</h1>
-
-{% if articles %}
-	<div class="list-block media-list">
-		<ul>	
-			{% for article in articles %}
-			<li>
-				<div class="item-inner">
-					<div class="item-title-row">
-						<div class="item-title">
-							<a href="{{ article.link }}" class="external" target="_blank" style="font-weight: bold; color: #000;">
-								{{ article.title }}
-							</a>
+<div class="content-block">
+	<div class="content-block-inner">
+		<h1>Infos</h1>
+		{% if articles %}
+			<div class="list-block media-list">
+				<ul>
+					{% for article in articles %}
+					<li>
+						<div class="item-inner">
+							<div class="item-title-row">
+								<div class="item-title">
+									<a href="{{ article.link }}" class="external" target="_blank" style="font-weight: bold; color: #000;">
+										{{ article.title }}
+									</a>
+								</div>
+							</div>
+							<div class="item-text">
+								{{ article.content }}
+							</div>
 						</div>
-					</div>
-					<div class="item-text">
-						{{ article.content }}
-					</div>
-				</div>
-			</li>
-			{% endfor %}
-		</ul>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
-	
-{% endif %}
-
+</div>
 {% endblock %}

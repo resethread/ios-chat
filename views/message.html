@@ -1,0 +1,50 @@
+{% extends './layouts/application-layout.html' %}
+
+{% block content %}
+<div class="content-block">
+	<div class="content-block-inner">
+        <p><a href="/" class="back">Revenir en arrière</a></p>
+        {% if message %}
+            <h1>{{ message.station }}</h1>
+            <p>
+                <small>{{ message.user }}</small>
+            </p>
+            <p>{{ message.message }}</p>
+            <div class="list-block">
+                <ul>
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici" @focus="focusArea" @blur="showTab"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <button class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% for comment in message.comments%}
+<div class="card">
+    <div class="card-header">
+        <span>{{ comment.user }}</span>
+        <span class="badge">{{ comment.created_at }}</span>
+    </div>
+    <div class="card-content">
+        <div class="card-content-inner">
+            {{ comment.text }}
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
