@@ -1,0 +1,45 @@
+<div class="popup popup-about">
+	<div class="page">
+		<div class="content-block">
+			<div class="new-signal form-look">
+				<div class="list-block">
+					<ul>
+						<li>
+							<div class="item-content">
+								<div class="item-media">
+									<i class="icon icon-form-settings"></i>
+								</div>
+								<div class="item-inner">
+									<div class="item-input">
+										<input type="text" placeholder="Station" id="input_station" v-model="station" list="stations" required>
+										{% include './datalist.html' %}
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="align-top">
+							<div class="item-content">
+								<div class="item-media">
+									<i class="icon icon-form-comment"></i>
+								</div>
+								<div class="item-inner">
+									<div class="item-input">
+										<textarea rows="2" placeholder="Message" id="input_message" v-model="message" required></textarea>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="col-50">
+						<a href="#" class="button button-big button-fill color-red close-popup">Annuler</a>
+					</div>
+					<div class="col-50">
+						<a href="#" class="button button-big button-fill color-green close-popup" @click="newMessage">Envoyer</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

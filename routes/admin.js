@@ -36,12 +36,21 @@ module.exports = (app) => {
 	})
 
 	admin.get('/articles/edit/:id', (req, res) => {
-		res.render('./admin/pages/articles/edit.html')
+		Article.findById(req.params.id, (err, article) => {
+			res.render('./admin/pages/articles/edit.html', {
+				article: article
+			})
+		})
+
+	})
+
+	admin.post('/articles/edit/:id', (req, res) => {
+		
 	})
 
 	admin.post('/articles/edit/:id', (req, res) => {
 
 	})
-	
+
 	app.use('/admin', admin)
 }

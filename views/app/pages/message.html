@@ -1,11 +1,11 @@
-{% extends './layouts/application-layout.html' %}
+{% extends '../layouts/application-layout.html' %}
 
 {% block content %}
 <div class="content-block">
 	<div class="content-block-inner">
         <p><a href="/" class="back">Revenir en arrière</a></p>
         {% if message %}
-            <h1>{{ message.station }}</h1>
+            <h2>{{ message.station }}</h2>
             <p>
                 <small>{{ message.user }}</small>
             </p>
@@ -24,7 +24,7 @@
                     <li>
                         <div class="item-content">
                             <div class="item-inner">
-                                <button class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
+                                <button class="button button-fill color-green" style="width: 100%;" @click="sendComment" onclick="sendComment()">Envoi</button>
                             </div>
                         </div>
                     </li>
@@ -33,18 +33,24 @@
         {% endif %}
     </div>
 </div>
-{% for comment in message.comments%}
-<div class="card">
-    <div class="card-header">
-        <span>{{ comment.user }}</span>
-        <span class="badge">{{ comment.created_at }}</span>
-    </div>
-    <div class="card-content">
-        <div class="card-content-inner">
-            {{ comment.text }}
+<div class="commentZone">
+    {% for comment in message.comments%}
+    <div class="card">
+        <div class="card-header">
+            <span>{{ comment.user }}</span>
+            <span class="badge">{{ comment.created_at }}</span>
+        </div>
+        <div class="card-content">
+            <div class="card-content-inner">
+                {{ comment.text }}
+            </div>
         </div>
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
+
+<script>
+	console.log('ok')
+</script>
 
 {% endblock %}

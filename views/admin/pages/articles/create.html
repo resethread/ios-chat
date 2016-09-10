@@ -1,0 +1,30 @@
+{% extends "../../layouts/default.html" %}
+
+{% block content %}
+	<h1 class="page-header">Créer article</h1>
+
+	<ul class="breadcrumb">
+	    <li><a href="/admin/articles">Articles</a></li>
+	    <li class="active">Créée</li>
+  	</ul>
+
+	<div class="well">
+		<form action="/admin/articles/create" method="POST">
+			<div class="form-group">
+				<label for="title">Titre</label>
+				<input type="text" class="form-control" name="title" required>
+			</div>
+			<div class="form-group">
+				<label for="overview">Apercu</label>
+				<textarea class="form-control" name="overview" required></textarea>
+			</div>
+			<div class="form-group">
+				<label for="content">Contenu</label>
+				<textarea class="form-control" name="content" rows="8" required></textarea>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-success">Envoie</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}

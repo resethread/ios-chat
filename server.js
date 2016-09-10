@@ -8,41 +8,43 @@ var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://127.0.0.1/chat')
 
+// config
+nunjucks.configure('views', {
+	autoescape: true,
+  	express   : app
+})
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 // helpers
 function getTimeFormat() {
 	var date = new Date()
 	var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
 	var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
-	
+
 	return hours + ':' + minutes
 }
+
+//require('./events/events')(app)
 
 var Message = require('./models/message')
 
 io.sockets.on('connection', function(socket) {
-	
-	Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec(function(err, result) {
-		if (err) throw err;
-		socket.emit('data', result)
-	})
-	
-	socket.on('client-send-message', function(message) {
 
-		var m = new Message()
-		m.user = message.user
-		m.station = message.station
-		m.message = message.message
-		m.created_at = new Date()
-		m.updated_at = new Date()
-		m.time = message.time
-		m.save()
-		
-		message.id = m._id
-
-		io.sockets.emit('server-good-receive', message )
+	socket.on('client_send_message', function(message) {
+		var m = new Message({
+			user: message.user,
+			station: message.station,
+			message: message.message,
+			created_at: new Date(),
+			updated_at: new Date(),
+			time: message.time
+		})
+		m.save((err) => {
+			message.id = m._id
+			io.sockets.emit('server_good_receive', message )
+		})
 	})
 
 	socket.on('client_load_comments', function(id) {
@@ -66,20 +68,15 @@ io.sockets.on('connection', function(socket) {
 	})
 })
 
-// config
-nunjucks.configure('views', {
-	autoescape: true,
-  	express   : app
-})
-app.use(express.static('public'))
 
 // routes
 require('./routes/app')(app)
 require('./routes/admin')(app)
 // 404
+/*
 app.use(function(req, res, next) {
   res.status(404).send('Sorry cant find that! - 404')
 })
-
+*/
 
 server.listen(8080)

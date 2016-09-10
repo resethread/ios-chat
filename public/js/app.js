@@ -1,5 +1,8 @@
+
+
+
 var myApp = new Framework7({
-	animateNavBackIcon:true
+	animateNavBackIcon:true,
 });
 var $$ = Dom7;
 
@@ -7,7 +10,7 @@ var mainView = myApp.addView('.view-main', {
     // Enable dynamic Navbar
     dynamicNavbar: true,
     // Enable Dom Cache so we can use all inline pages
-    domCache: true
+    domCache: true,
 });
 
 $$('.go-signal').on('click', function() {
@@ -32,11 +35,8 @@ $$('.close-popup').on('click', function() {
 // socket io
 var socket = io()
 
-socket.on('data', function(data) {
-	vm._data.messages = data
-})
-socket.on('server-good-receive', function(message) {
-	vm._data.messages.unshift(message)
+socket.on('server_good_receive', function(message) {
+	vm.unshiftMessage(message)
 })
 
 socket.on('server_sends_comments', function(comments) {
@@ -47,12 +47,16 @@ socket.on('server_push_2_client', function(comment) {
 	vm._data.comments.unshift(comment)
 })
 
+function sendComment() {
+	console.log('not vuejs')
+	vm.sendComment()
+}
+
 var vm = new Vue({
 	el: '#appli_chat',
 
 	ready: function(arg) {
 		this.showTab()
-		console.log('keep calm and fuck the system...')
     },
 
 	data: {
@@ -80,9 +84,34 @@ var vm = new Vue({
 
 				time: this.getTimeFormated()
 			}
-			socket.emit('client-send-message', new_message)
+			socket.emit('client_send_message', new_message)
 			document.getElementById('input_station').value = ''
 			document.getElementById('input_message').value = ''
+		},
+
+		unshiftMessage: function(message) {
+			var template = '<li>' +
+								'<a href="/message/' + message.id + '" class="item-link">' +
+									'<div class="item-content">' +
+										'<div class="item-inner">' +
+											'<div class="item-title-row">' +
+												'<div class="item-title">' +
+													'<b>' + message.station + '</b>' +
+												'</div>' +
+												'<div class="item-after">' +
+													'<span class="badge ' + this.badgeColor(message.created_at) + '">' +  message.time + '</span>' +
+												'</div>' +
+											'</div>' +
+											'<div class="item-subtitle">' +
+												'<small>' + message.user + '</small>' +
+											'</div>' +
+											'<div class="item-text">' + message.message + '</div>' +
+										'</div>' +
+									'</div>' +
+								'</a>' +
+							'</li>'
+
+			document.getElementById('list_messages').insertAdjacentHTML('afterbegin', template)
 		},
 
 		getTimeFormated: function() {
@@ -92,7 +121,7 @@ var vm = new Vue({
 
 			return hours + ':' + minutes
 		},
-
+		/*
 		moreInfos: function(message) {
 			document.getElementById('this_id').dataset.id = message._id
 			document.getElementById('this_station').innerHTML = message.station
@@ -103,13 +132,18 @@ var vm = new Vue({
 			// load comments
 			socket.emit('client_load_comments', message._id || message.id)
 		},
+		*/
 
-		sendComment() {
-			var comment = {}
-			comment.message_id = this.id
-			comment.user = localStorage.getItem('nick') || 'Annonyme'
-			comment.text = document.getElementById('commentText').value
-			comment.created_at = this.getTimeFormated()
+		sendComment: function() {
+			console.log('vuejs')
+			var comment = {
+				message_id: this.id,
+				user: localStorage.getItem('nick') || 'Annonyme',
+				text: document.getElementById('commentText').value,
+				created_at: this.getTimeFormated()
+			}
+	
+			console.log(comment)
 			document.getElementById('commentText').value = ''
 
 			if (comment.text) {
@@ -151,10 +185,16 @@ var vm = new Vue({
 		hideTab: function() {
 			this.tabbar_visible = false
 		},
+
+		toto: function() {
+			alert('toto')
+		}
 	},
 })
 
+/*
 setTimeout(function() {
 	console.clear()
-	console.log('keep calm and fuck the system...')
+	console.log('keep calm and **** the system...')
 }, 100)
+*/
