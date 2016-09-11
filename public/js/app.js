@@ -1,6 +1,3 @@
-
-
-
 var myApp = new Framework7({
 	animateNavBackIcon:true,
 });
@@ -30,49 +27,63 @@ $$('.close-popup').on('click', function() {
 	myApp.closeModal('.popup-about')
 });
 
-
-
 // socket io
 var socket = io()
-
-socket.on('server_good_receive', function(message) {
-	vm.unshiftMessage(message)
-})
-
-socket.on('server_sends_comments', function(comments) {
-	vm._data.comments = comments
-})
-
-socket.on('server_push_2_client', function(comment) {
-	vm._data.comments.unshift(comment)
-})
-
-function sendComment() {
-	console.log('not vuejs')
-	vm.sendComment()
-}
 
 var vm = new Vue({
 	el: '#appli_chat',
 
-	ready: function(arg) {
-		this.showTab()
-    },
+	init: function() {
+		console.log('app init')		
+		socket.emit('request_messages')
+	},
+
+	created: function() {
+		console.log('created')
+
+		// bind this est important ça veut dire que this fait référence à l'objet vue et pas à l'objet socket
+		socket.on('send_messages', function(messages) {
+			this.index.messages = messages
+		}.bind(this))
+
+		socket.on('server_response_client', function(message) {
+			this.index.messages.unshift(message)
+		}.bind(this))
+
+		socket.on('server_response_comments', function(comments) {
+			this.id_message.comments = comments
+		}.bind(this))
+
+		socket.on('server_response_comment', function(comment) {
+			this.id_message.comments.unshift(comment)
+		}.bind(this))
+
+	},
+
+	ready: function() {
+		console.log('app ready')
+	},
 
 	data: {
+		index: {
+			messages: []
+		},
+		id_message: {
+			id: '',
+			station: '',
+			message: '',
+			comments: []
+		},
 		id: '',
-		messages: [],
-		user: '',
 		station: '',
 		message: '',
-		comments: [],
+		newComment: '',
 		tabbar_visible: true
+
 	},
 
 	methods: {
-
 		newMessage: function() {
-
 			var station = this.station
 			var message = this.message
 
@@ -84,76 +95,46 @@ var vm = new Vue({
 
 				time: this.getTimeFormated()
 			}
-			socket.emit('client_send_message', new_message)
+
+			socket.emit('client_post_message', new_message)
 			document.getElementById('input_station').value = ''
 			document.getElementById('input_message').value = ''
 		},
 
-		unshiftMessage: function(message) {
-			var template = '<li>' +
-								'<a href="/message/' + message.id + '" class="item-link">' +
-									'<div class="item-content">' +
-										'<div class="item-inner">' +
-											'<div class="item-title-row">' +
-												'<div class="item-title">' +
-													'<b>' + message.station + '</b>' +
-												'</div>' +
-												'<div class="item-after">' +
-													'<span class="badge ' + this.badgeColor(message.created_at) + '">' +  message.time + '</span>' +
-												'</div>' +
-											'</div>' +
-											'<div class="item-subtitle">' +
-												'<small>' + message.user + '</small>' +
-											'</div>' +
-											'<div class="item-text">' + message.message + '</div>' +
-										'</div>' +
-									'</div>' +
-								'</a>' +
-							'</li>'
+		infosId: function(message) {
 
-			document.getElementById('list_messages').insertAdjacentHTML('afterbegin', template)
+			document.getElementById('this_station').innerHTML = message.station
+			document.getElementById('this_message').innerHTML = message.message
+
+			sessionStorage.setItem("id", message._id)
+
+			socket.emit('request_comments', message._id)
+			
 		},
 
+		sendComment: function() {
+
+			var comment = {
+				message_id: sessionStorage.getItem("id"),
+				user: localStorage.getItem('nick') || 'Annonyme',
+				text: this.newComment,
+				created_at: this.getTimeFormated()
+			}
+
+			if (comment.text) {
+				socket.emit('client_post_comment', comment)
+			}
+
+			this.newComment = ''
+		},
+
+		// à externaliser ou à traiter coté serveur
 		getTimeFormated: function() {
 			var date = new Date()
 			var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
 			var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
 
 			return hours + ':' + minutes
-		},
-		/*
-		moreInfos: function(message) {
-			document.getElementById('this_id').dataset.id = message._id
-			document.getElementById('this_station').innerHTML = message.station
-			document.getElementById('this_message').innerHTML = message.message
-
-			this.id = message._id || message.id
-
-			// load comments
-			socket.emit('client_load_comments', message._id || message.id)
-		},
-		*/
-
-		sendComment: function() {
-			console.log('vuejs')
-			var comment = {
-				message_id: this.id,
-				user: localStorage.getItem('nick') || 'Annonyme',
-				text: document.getElementById('commentText').value,
-				created_at: this.getTimeFormated()
-			}
-	
-			console.log(comment)
-			document.getElementById('commentText').value = ''
-
-			if (comment.text) {
-				socket.emit('client-send-comment', comment)
-			}
-		},
-
-		logout: function() {
-			localStorage.clear()
-			myApp.alert('Plus de traces içi...', null);
 		},
 
 		badgeColor: function(created_at) {
@@ -172,6 +153,11 @@ var vm = new Vue({
 			return bg
 		},
 
+		logout: function() {
+			localStorage.clear()
+			myApp.alert('Plus de traces içi...', null);
+		},
+
 		focusArea: function() {
 			this.hideTab()
 			var el = document.getElementById('scroll')
@@ -185,16 +171,5 @@ var vm = new Vue({
 		hideTab: function() {
 			this.tabbar_visible = false
 		},
-
-		toto: function() {
-			alert('toto')
-		}
-	},
+	}
 })
-
-/*
-setTimeout(function() {
-	console.clear()
-	console.log('keep calm and **** the system...')
-}, 100)
-*/

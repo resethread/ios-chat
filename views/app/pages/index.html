@@ -20,98 +20,44 @@
 					</div>
 				</div>
 				<div class="pages navbar-through toolbar-through">
-					<div data-page="" class="page">
+					<div data-page="index" class="page">
 						<div class="page-content">
 							<div class="content-block">
 								<div class="content-block-inner">
 									<div class="list-block media-list">
-										<ul id="list_messages">
-											{% for message in data %}
-												<li>
-													<a href="/message/{{ message._id }}" class="item-link">
-														<div class="item-content">
-															<div class="item-inner">
-																<div class="item-title-row">
-																	<div class="item-title">
-																		<b>{{ message.station }}</b>
-																	</div>
-																	<div class="item-after">
-																		<span class="badge {{ badgeColor(message.created_at) }}">{{ message.time }}</span>
-																	</div>
-																</div>
-																<div class="item-subtitle">
-																	<small>{{ message.user }}</small>
-																</div>
-																<div class="item-text">{{ message.message }}</div>
-															</div>
-														</div>
-													</a>
-												</li>
-											{% endfor %}
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					{# page info #}
-					<div data-page="infos" class="page cached">
-						<div class="page-content">
-							<div class="content-block" id="this_id" data-id="">
-								<div class="content-block-inner">
-									<p><a href="#" class="back">Retour en arrière</a></p>
-									<h2 id="this_station"></h2>
-									<p id="this_message"></p>
-								</div>
-							</div>
-							<div class="content-block" id="scroll">
-								<div class="content-block-inner">
-									<div class="list-block">
 										<ul>
-											<li class="align-top">
-												<div class="item-content">
-													<div class="item-inner">
-														<div class="item-input">
-															<textarea name="commentText" id="commentText" rows="4" placeholder="votre texte ici" @focus="focusArea" @blur="showTab"></textarea>
+											<li v-for="message in index.messages">
+												<a href="#id" class="item-link" @click="infosId(message)">
+													<div class="item-content">
+														<div class="item-inner">
+															<div class="item-title-row">
+																<div class="item-title">
+																	<b v-text="message.station"></b>
+																</div>
+																<div class="item-after">
+																	<span class="badge" v-bind:class="badgeColor(message.created_at)" v-text="message.time"></span>
+																</div>
+															</div>
+															<div class="item-subtitle">
+																<small v-text="message.user"></small>
+															</div>
+															<div class="item-text" v-text="message.message"></div>
 														</div>
 													</div>
-												</div>
-											</li>
-											<li>
-												<div class="item-content">
-													<div class="item-inner">
-														<button class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
-													</div>
-												</div>
+												</a>
 											</li>
 										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="content-block">
-								<div class="content-block-title">
-									Commentaires
-								</div>
-							</div>
-							<div class="card" v-for="comment in comments">
-								<div class="card-header">
-									<span v-text="comment.user"></span>
-									<span class="badge" v-text="comment.created_at"></span>
-								</div>
-								<div class="card-content">
-									<div class="card-content-inner" v-text="comment.text">
-									</div>
-								</div>
-							</div>
-
 						</div>
 					</div>
-					{# page info #}
+					{% include '../includes/id_message.html' %}
 				</div>
 			</div>
 			<div class="toolbar tabbar tabbar-labels" v-show="tabbar_visible">
 				<div class="toolbar-inner" style="justify-content: center;">
-					<p><a href="#" class="button button-big button-fill color-blue go-signal">Faire un signal</a></p>
+					<p><a href="#" class="button button-big button-fill color-blue go-signal">Envoyer un message</a></p>
 				</div>
 			</div>
 		</div>

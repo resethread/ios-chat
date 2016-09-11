@@ -32,39 +32,34 @@ var Message = require('./models/message')
 
 io.sockets.on('connection', function(socket) {
 
-	socket.on('client_send_message', function(message) {
-		var m = new Message({
-			user: message.user,
-			station: message.station,
-			message: message.message,
-			created_at: new Date(),
-			updated_at: new Date(),
-			time: message.time
-		})
-		m.save((err) => {
-			message.id = m._id
-			io.sockets.emit('server_good_receive', message )
+	socket.on('request_messages', () => {
+		Message.find().sort({ 'created_at' : 'desc'}).limit(20).exec((err, messages) => {
+			socket.emit('send_messages', messages)
 		})
 	})
 
-	socket.on('client_load_comments', function(id) {
-		Message.findById(id, function(err, message) {
-			if (err) {
-				throw err
-			}
+	socket.on('client_post_message', (message) => {
+		Message.create(message, (err, message) => {
+			var message = message
+			console.log(message)
+			socket.emit('server_response_client', message)
+		})
+	})
+
+	socket.on('request_comments', (id) => {
+		Message.findById(id, (err, message) => {
 			var comments = message.comments
-			socket.emit('server_sends_comments', comments)
+			socket.emit('server_response_comments', comments)
 		})
 	})
 
-	socket.on('client-send-comment', function(comment) {
-		Message.findById(comment.message_id, function(err, message) {
+	socket.on('client_post_comment', (comment) => {
+		Message.findById(comment.message_id, (err, message) => {
 			message.comments.unshift(comment)
-			message.save(function(err) {
-				if (err) throw  err;
-				socket.emit('server_push_2_client', comment)
+			message.save((err) => {
+				socket.emit('server_response_comment', comment)
 			})
-		})
+		}) 
 	})
 })
 

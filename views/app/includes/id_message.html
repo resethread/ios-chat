@@ -1,0 +1,51 @@
+<div data-page="id" class="page cached">
+	<div class="page-content">
+		<div class="content-block" id="this_id" data-id="">
+			<div class="content-block-inner">
+				<p><a href="#" class="back">Retour en arrière</a></p>
+				<h2 id="this_station"></h2>
+				<p id="this_message"></p>
+			</div>
+		</div>
+		<div class="content-block" id="scroll">
+			<div class="content-block-inner">
+				<div class="list-block">
+					<ul>
+						<li class="align-top">
+							<div class="item-content">
+								<div class="item-inner">
+									<div class="item-input">
+										<textarea name="commentText" rows="4" placeholder="votre texte ici" v-model="newComment" @focus="focusArea" @blur="showTab"></textarea>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="item-content">
+								<div class="item-inner">
+									<button class="button button-fill color-green" style="width: 100%;" @click="sendComment">Envoi</button>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="content-block">
+			<div class="content-block-title">
+				Commentaires
+			</div>
+		</div>
+		<div class="card" v-for="comment in id_message.comments">
+			<div class="card-header">
+				<span v-text="comment.user"></span>
+				<span class="badge" v-text="comment.created_at"></span>
+			</div>
+			<div class="card-content">
+				<div class="card-content-inner" v-text="comment.text">
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
