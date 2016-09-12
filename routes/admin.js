@@ -9,6 +9,11 @@ module.exports = (app) => {
 		res.render('./admin/pages/index.html')
 	})
 
+	/* |||||||||||||||||||||||||
+
+	Article
+
+	||||||||||||||||||||||||||||*/
 	admin.get('/articles', (req, res) => {
 		Article.find().sort({ 'created_at' : 'desc'}).exec((err, articles) => {
 			res.render('./admin/pages/articles/index.html', {
@@ -45,12 +50,30 @@ module.exports = (app) => {
 	})
 
 	admin.post('/articles/edit/:id', (req, res) => {
-		
+		Article.update({ _id: req.params.id }, {
+			title: req.body.title,
+			overview: req.body.overview,
+			content: req.body.content,
+		}, { multi: true }, () => {
+			res.redirect('/admin/articles')
+		})
 	})
 
-	admin.post('/articles/edit/:id', (req, res) => {
-
+	admin.post('/articles/delete/:id', (req, res) => {
+		Article.findByIdAndRemove(req.params.id, (err) => {
+			res.redirect('/admin/articles')
+		})
 	})
+
+	/* |||||||||||||||||||||||||
+
+	Users
+
+	||||||||||||||||||||||||||||*/
+
+	admin.get('/users')
 
 	app.use('/admin', admin)
+
+
 }

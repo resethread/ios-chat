@@ -41,8 +41,7 @@ io.sockets.on('connection', function(socket) {
 	socket.on('client_post_message', (message) => {
 		Message.create(message, (err, message) => {
 			var message = message
-			console.log(message)
-			socket.emit('server_response_client', message)
+			io.sockets.emit('server_response_client', message)
 		})
 	})
 
@@ -57,7 +56,7 @@ io.sockets.on('connection', function(socket) {
 		Message.findById(comment.message_id, (err, message) => {
 			message.comments.unshift(comment)
 			message.save((err) => {
-				socket.emit('server_response_comment', comment)
+				io.sockets.emit('server_response_comment', comment)
 			})
 		}) 
 	})
