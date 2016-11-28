@@ -11,7 +11,8 @@ mongoose.connect('mongodb://127.0.0.1/chat')
 // config
 nunjucks.configure('views', {
 	autoescape: true,
-  	express   : app
+  	express   : app,
+  	watch : true
 })
 
 app.use(bodyParser.urlencoded({ extended: true }))
