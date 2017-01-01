@@ -1,3 +1,3 @@
 # Real time chat
-![Logo](./public/img/icon.jpg)
+
 Littre chat using Nodejs, MongoDB, Nunjucks for templating...
