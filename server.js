@@ -59,7 +59,7 @@ io.sockets.on('connection', function(socket) {
 			message.save((err) => {
 				io.sockets.emit('server_response_comment', comment)
 			})
-		}) 
+		})
 	})
 })
 
