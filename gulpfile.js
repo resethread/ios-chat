@@ -59,7 +59,7 @@ gulp.task('copy-less', () => {
 
 gulp.task('compile-less', () => {
 	var sources = [
-		'./resources/assets/less/framework7.ios.less', 
+		'./resources/assets/less/framework7.ios.less',
 		'./resources/assets/less/framework7.ios.colors.less'
 	]
 	return gulp.src(sources)
@@ -95,6 +95,6 @@ gulp.task('watch', () => {
 	gulp.watch('./resources/assets/**', ['js'])
 })
 
-gulp.task('prod', ['js', 'minify-js', 'css']) 
+gulp.task('prod', ['js', 'minify-js', 'css'])
 
-gulp.task('default', ['js'])
+gulp.task('default', ['js', 'css'])
